@@ -7,12 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:581563587943:android:f7d970aa774db26964a3c2",
+        "mobilesdk_app_id": "1:581563587943:android:8467d8905e38852364a3c2",
         "android_client_info": {
-          "package_name": "com.ecommerce"
+          "package_name": "com.marshal.ecommerce"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "581563587943-rjgtra1qd112mk9bh12ro8tdjb45n6pl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.marshal.ecommerce",
+            "certificate_hash": "5ecf4737973038390af9aaec64c46aaad3eb2bea"
+          }
+        },
+        {
+          "client_id": "581563587943-jdkl5d0tbaf2i878a2tq4jorb0l3sb1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDMfTran5z4Qf8BNur72_a1OabG1JL17So"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "581563587943-jdkl5d0tbaf2i878a2tq4jorb0l3sb1n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
