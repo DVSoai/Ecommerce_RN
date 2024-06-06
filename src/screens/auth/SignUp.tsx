@@ -6,12 +6,14 @@ import {
   Space,
   Text,
 } from '@bsdaoquang/rncomponent';
+import auth from '@react-native-firebase/auth';
 import {TickCircle, TickSquare} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {Image, Platform} from 'react-native';
 import {Container} from '../../components';
 import {colors} from '../../constants/colors';
 import {fontFamilies} from '../../constants/fontFamilies';
+import {Auth} from '../../utils/handleAuthen';
 
 const initState = {
   username: '',
@@ -49,6 +51,27 @@ const SignUp = ({navigation}: any) => {
 
   const createNewAccount = async () => {
     setIsLoading(true);
+    try {
+      const userCredential = await auth().createUserWithEmailAndPassword(
+        registerForm.email,
+        registerForm.password,
+      );
+      const user = userCredential.user;
+      if (user) {
+        if (registerForm.username) {
+          await user.updateProfile({
+            displayName: registerForm.username,
+          });
+        }
+        await Auth.CreateProfile();
+        navigation.navigate('Result');
+      }
+      setIsLoading(false);
+    } catch (error: any) {
+      console.log(error);
+      setErrorText(error.message);
+      setIsLoading(false);
+    }
   };
 
   const renderButtonRegister = () => {
