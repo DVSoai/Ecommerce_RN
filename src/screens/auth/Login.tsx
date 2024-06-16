@@ -7,13 +7,52 @@ import {colors} from '../../constants/colors';
 import {fontFamilies} from '../../constants/fontFamilies';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {globalStyles} from '../../styles/globalStyles';
+import auth from '@react-native-firebase/auth';
+import {Auth} from '../../utils/handleAuthen';
+import {useDispatch} from 'react-redux';
+import {addAuth} from '../../redux/reducers/authReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {localDataNames} from '../../constants/localDataNames';
 
 const Login = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleLogin = async () => {};
+  const handleLogin = async () => {
+    if (email && password) {
+      setIsLoading(true);
+      try {
+        const userCredential = await auth().signInWithEmailAndPassword(
+          email,
+          password,
+        );
+        const user = userCredential.user;
+
+        if (user) {
+          const data = {
+            uid: user.uid,
+            email: user.email ?? '',
+            displayName: user.displayName ?? '',
+            emailVerified: user.emailVerified,
+            photoUrl: user.photoURL,
+            creationTime: user.metadata.creationTime,
+            lastSignInTime: user.metadata.lastSignInTime,
+          };
+          dispatch(addAuth(data));
+          await AsyncStorage.setItem(localDataNames.auth, JSON.stringify(data));
+          await Auth.UpdateProfile(user);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    } else {
+      console.log('Missing values');
+    }
+  };
 
   return (
     <Container isScroll={false}>
@@ -35,6 +74,7 @@ const Login = ({navigation}: any) => {
       <ScrollView style={[globalStyles.container]}>
         <Section>
           <Input
+            required
             helpText="Please enter your email"
             value={email}
             radius={0}

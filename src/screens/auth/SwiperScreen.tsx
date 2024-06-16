@@ -52,7 +52,8 @@ const SwiperScreen = ({navigation, route}: any) => {
           <Button
             color={colors.dark}
             styles={{
-              paddingHorizontal: 12,
+              height: 50,
+              width: 50,
             }}
             icon={<ArrowRight2 size={24} color="white" />}
             onPress={() =>
